@@ -1,0 +1,243 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Disable text selection for touch interface */
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Allow text selection in input fields if needed */
+input, textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+  
+  /* Vending Machine Theme Colors */
+  --urban-green: hsl(152, 48%, 22%);
+  --urban-yellow: hsl(45, 100%, 50%);
+  --urban-white: hsl(0, 0%, 100%);
+  --urban-black: hsl(0, 0%, 0%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased text-foreground;
+    background-color: var(--urban-green);
+    overflow: hidden;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;             /* Chrome, Safari and Opera */
+  }
+
+  .max-w-2xl {
+    max-width: 62rem;
+  }
+
+  .urban-green {
+    background-color: var(--urban-green);
+  }
+  
+  .urban-yellow {
+    background-color: var(--urban-yellow);
+  }
+  
+  .text-urban-green {
+    color: var(--urban-green);
+  }
+  
+  .text-urban-yellow {
+    color: var(--urban-yellow);
+  }
+  
+  .text-urban-white {
+    color: var(--urban-white);
+  }
+  
+  .border-urban-yellow {
+    border-color: var(--urban-yellow);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  50% { 
+    transform: translateY(-25px) rotate(5deg); 
+  }
+}
+
+@keyframes progress {
+  0% { 
+    width: 0%; 
+  }
+  100% { 
+    width: 100%; 
+  }
+}
+
+.floating-element {
+  animation: float 6s ease-in-out infinite;
+}
+
+.floating-element:nth-child(2) { 
+  animation-delay: 1s; 
+}
+
+.floating-element:nth-child(3) { 
+  animation-delay: 2.2s; 
+}
+
+.floating-element:nth-child(4) { 
+  animation-delay: 3.5s; 
+}
+
+.floating-element:nth-child(5) { 
+  animation-delay: 4.7s; 
+}
+
+.floating-element:nth-child(6) { 
+  animation-delay: 5.9s; 
+}
+
+.floating-element:nth-child(7) { 
+  animation-delay: 7.3s; 
+}
+
+.floating-element:nth-child(8) { 
+  animation-delay: 8.5s; 
+}
+
+.floating-element:nth-child(9) { 
+  animation-delay: 9.8s; 
+}
+
+.floating-element:nth-child(10) { 
+  animation-delay: 11s; 
+}
+
+.floating-element:nth-child(11) { 
+  animation-delay: 12.3s; 
+}
+
+.floating-element:nth-child(12) { 
+  animation-delay: 13.5s; 
+}
+
+.animate-progress {
+  animation: progress 4s ease-in-out forwards;
+}
+
+/* Portrait orientation enforcement */
+@media (orientation: landscape) {
+  body::before {
+    content: "Please rotate your device to portrait mode";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--urban-green);
+    color: var(--urban-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    z-index: 9999;
+  }
+  
+  .app-container {
+    display: none;
+  }
+}
+
+/* Touch-friendly sizing */
+.touch-btn {
+  min-height: 60px;
+  min-width: 120px;
+}
+
+.touch-btn-large {
+  min-height: 80px;
+  min-width: 200px;
+}
