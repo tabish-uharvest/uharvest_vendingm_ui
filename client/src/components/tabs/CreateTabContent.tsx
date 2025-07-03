@@ -3,6 +3,7 @@ import { TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Plus, Minus, X, AlertCircle } from "lucide-react";
 import glassImage from "@/assets/glass.png";
+import bowlImage from "@/assets/bowl.png";
 
 // Props interface
 interface CreateTabContentProps {
@@ -233,91 +234,40 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
           {/* Right side - Cup/Bowl Visualization */}
           <div className="bg-white bg-opacity-10 rounded-2xl p-5 flex flex-col items-center justify-center relative h-[630px]">
             {/* Container Visualization */}
-            <div className="relative w-full max-w-[250px]">
+            <div className={`relative w-full mt-4 ${isSmoothie ? 'max-w-[300px]' : 'max-w-[350px]'}`}>
               {isSmoothie ? (
                 /* Smoothie Glass */
                 <div className="w-full flex items-end justify-center relative">
                   {/* Glass Image */}
-                  <div className="relative w-full max-w-[250px] h-[350px]">
+                  <div className="relative w-full max-w-[300px] h-[400px]">
                     <img 
                       src={glassImage} 
                       alt="Smoothie Glass" 
                       className="w-full h-full object-contain absolute top-0 left-0 z-10"
                     />
                     
-                    {/* Smoothie Content */}
-                    <div className="absolute bottom-[10%] left-[16%] w-[68%] h-[80%] z-0 overflow-hidden rounded-b-3xl">
-                      <div 
-                        className="absolute bottom-0 w-full"
-                        style={{ 
-                          height: `${totalPercentage}%`, 
-                          background: `linear-gradient(to top, 
-                            ${selectedIngredients.map((ing, i) => {
-                              const stopPercentage = selectedIngredients
-                                .slice(0, i + 1)
-                                .reduce((sum, item) => sum + item.currentPercentage, 0);
-                              return `${ing.id === 'strawberry' ? '#ff6b6b' : 
-                                      ing.id === 'banana' ? '#ffcc5c' : 
-                                      ing.id === 'apple' ? '#8cd790' : 
-                                      ing.id === 'kiwi' ? '#64a36f' : 
-                                      ing.id === 'mango' ? '#ffb347' : 
-                                      ing.id === 'raspberry' ? '#c94c4c' : 
-                                      ing.id === 'ginger' ? '#e8c872' : 
-                                      ing.id === 'orange' ? '#ffac33' : '#a8e6cf'} ${stopPercentage}%`;
-                            }).join(', ')}
-                          )`,
-                          transition: 'height 0.3s ease, background 0.3s ease'
-                        }}
-                      >
-                        {/* Smoothie texture */}
-                        <div className="absolute inset-0 opacity-20 mix-blend-overlay" 
-                          style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'1\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'1\'/%3E%3C/g%3E%3C/svg%3E")'}}
-                        ></div>
-                      </div>
-                    </div>
+
                   </div>
                 </div>
               ) : (
                 /* Salad Bowl */
-                <div className="aspect-[4/3] w-full bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-sm rounded-full border-2 border-white/20 flex items-center justify-center overflow-hidden relative">
-                  <div className="absolute w-[90%] h-[70%] bottom-[5%] rounded-[50%] overflow-hidden">
-                    <div 
-                      className="absolute bottom-0 w-full"
-                      style={{ 
-                        height: `${totalPercentage}%`, 
-                        background: `linear-gradient(to bottom, 
-                          ${selectedIngredients.map((ing, i) => {
-                            const stopPercentage = selectedIngredients
-                              .slice(0, i + 1)
-                              .reduce((sum, item) => sum + item.currentPercentage, 0);
-                            return `${ing.id === 'lettuce' ? '#90be6d' : 
-                                    ing.id === 'tomato' ? '#ff6b6b' : 
-                                    ing.id === 'cucumber' ? '#a8e6cf' : 
-                                    ing.id === 'carrot' ? '#ffac33' : 
-                                    ing.id === 'avocado' ? '#6a994e' : 
-                                    ing.id === 'corn' ? '#ffcc5c' : 
-                                    ing.id === 'olive' ? '#386641' : 
-                                    ing.id === 'pepper' ? '#dc2f02' : '#a8e6cf'} ${stopPercentage}%`;
-                          }).join(', ')}
-                        )`,
-                        transition: 'height 0.3s ease, background 0.3s ease'
-                      }}
-                    >
-                      {/* Bowl content texture */}
-                      <div className="absolute inset-0 opacity-20 mix-blend-overlay" 
-                        style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'1\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'1\'/%3E%3C/g%3E%3C/svg%3E")'}}
-                      ></div>
-                    </div>
+                <div className="w-full flex items-end justify-center relative">
+                  {/* Bowl Image */}
+                  <div className="relative w-full max-w-[350px] h-[450px]">
+                    <img 
+                      src={bowlImage} 
+                      alt="Salad Bowl" 
+                      className="w-full h-full object-contain absolute top-0 left-0 z-10"
+                    />
+                    
+
                   </div>
-                  
-                  {/* Bowl rim details */}
-                  <div className="absolute top-0 left-0 w-full h-full border-4 border-white/20 rounded-full pointer-events-none"></div>
                 </div>
               )}
             </div>
             
             {/* Percentage display on container */}
-            <div className="mt-4 text-white text-2xl font-bold">
+            <div className="mt-2 text-white text-2xl font-bold">
               {totalPercentage}%
             </div>
           </div>
