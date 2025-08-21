@@ -1,14 +1,15 @@
 import { useLocation } from 'wouter';
-import { useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, CreditCard } from 'lucide-react';
+import { ArrowLeft, CreditCard, X } from 'lucide-react';
 import { useVendingStore } from '@/lib/store';
-import { api } from '@/lib/api';
-import { useEffect } from 'react';
+import { useCreateOrder, useUpdateOrderStatus } from '@/hooks/useMachineData';
+import { useEffect, useState } from 'react';
 
 export default function PaymentPage() {
   const [, setLocation] = useLocation();
-  const { cart, setOrderId, setSelectedItem } = useVendingStore();
+  const { cart, setOrderId, setSelectedItem, createOrderData } = useVendingStore();
+  const [showTestingPopup, setShowTestingPopup] = useState(false);
+  const [currentOrder, setCurrentOrder] = useState<any>(null);
   
   // Ensure we have an item to use in the processing page
   useEffect(() => {
@@ -18,28 +19,73 @@ export default function PaymentPage() {
     }
   }, [cart, setSelectedItem]);
 
-  const createOrderMutation = useMutation({
-    mutationFn: api.createOrder,
-    onSuccess: (order) => {
-      setOrderId(order.id);
-      setLocation('/processing');
-    }
-  });
+  const createOrderMutation = useCreateOrder();
+  const updateOrderStatusMutation = useUpdateOrderStatus();
 
   const handleConfirmPayment = () => {
     if (cart.length === 0) return;
+    
+    // Create order with "pending" status first
+    const orderData = createOrderData();
+    if (!orderData) return;
 
-    const cartItem = cart[0];
-    const orderData = {
-      itemId: cartItem.item.id,
-      itemName: cartItem.item.name,
-      itemPrice: cartItem.item.price,
-      addons: JSON.stringify(cartItem.addons),
-      totalPrice: cartItem.total.toString(),
-      status: 'processing'
-    };
+    createOrderMutation.mutate(orderData, {
+      onSuccess: (order) => {
+        setCurrentOrder(order);
+        setOrderId(order.id);
+        // Show testing popup for payment simulation
+        setShowTestingPopup(true);
+      },
+      onError: (error) => {
+        console.error('Failed to create order:', error);
+        // Handle error - maybe show error message
+      }
+    });
+  };
 
-    createOrderMutation.mutate(orderData);
+  const handleTestingResult = (success: boolean) => {
+    setShowTestingPopup(false);
+
+    if (!currentOrder) return;
+
+    const newStatus = success ? 'processing' : 'failed';
+
+    // Update order status based on payment result
+    updateOrderStatusMutation.mutate(
+      { orderId: currentOrder.id, status: newStatus },
+      {
+        onSuccess: () => {
+          if (success) {
+            setLocation('/processing');
+          } else {
+            setLocation('/payment'); // Stay on payment page for retry
+          }
+        },
+        onError: (error) => {
+          console.error('Failed to update order status:', error);
+        }
+      }
+    );
+  };
+
+  const handleCancelPayment = () => {
+    if (currentOrder) {
+      // Update order status to cancelled
+      updateOrderStatusMutation.mutate(
+        { orderId: currentOrder.id, status: 'cancelled' },
+        {
+          onSuccess: () => {
+            setLocation('/items');
+          },
+          onError: (error) => {
+            console.error('Failed to cancel order:', error);
+            setLocation('/items'); // Go back anyway
+          }
+        }
+      );
+    } else {
+      setLocation('/items');
+    }
   };
 
   if (cart.length === 0) {
@@ -54,7 +100,7 @@ export default function PaymentPage() {
       {/* Header */}
       <div className="sticky top-0 urban-green p-6 shadow-lg z-10">
         <Button
-          onClick={() => setLocation('/customization')}
+          onClick={handleCancelPayment}
           className="absolute left-6 top-6 bg-white bg-opacity-20 text-white p-3 rounded-full hover:bg-opacity-30 transition-all touch-btn"
           variant="ghost"
         >
@@ -107,6 +153,46 @@ export default function PaymentPage() {
           Secure payment powered by Razorpay
         </p>
       </div>
+
+      {/* Testing Mode Popup */}
+      {showTestingPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl p-8 shadow-2xl max-w-md w-full mx-4 relative">
+            {/* Close Button */}
+            <Button
+              onClick={() => setShowTestingPopup(false)}
+              className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full"
+              variant="ghost"
+            >
+              <X className="w-5 h-5 text-gray-600" />
+            </Button>
+
+            {/* Popup Content */}
+            <div className="text-center">
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Testing Mode</h3>
+              <p className="text-gray-600 mb-8">Simulate payment result for testing</p>
+              
+              <div className="space-y-4">
+                {/* Success Button */}
+                <Button
+                  onClick={() => handleTestingResult(true)}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white text-xl font-bold py-4 h-auto rounded-xl shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95"
+                >
+                  ✅ Mark Success
+                </Button>
+                
+                {/* Failure Button */}
+                <Button
+                  onClick={() => handleTestingResult(false)}
+                  className="w-full bg-red-600 hover:bg-red-700 text-white text-xl font-bold py-4 h-auto rounded-xl shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95"
+                >
+                  ❌ Mark Failure
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

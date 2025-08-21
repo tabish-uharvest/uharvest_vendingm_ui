@@ -58,3 +58,65 @@ export interface CartItem {
   addons: SelectedAddon[];
   total: number;
 }
+
+// New API Types for Machine Inventory
+export interface Ingredient {
+  id: string;
+  name: string;
+  item_type: "ingredient";
+  emoji: string | null;
+  icon: string | null;
+  qty_available: number;
+  qty_available_unit: string;
+  low_stock_threshold: number;
+  is_low_stock: boolean;
+  is_available: boolean;
+  price_per_unit: string;
+  calories_per_unit: string;
+  min_qty_g: number;
+  max_percent_limit: number;
+}
+
+export interface AddonItem {
+  id: string;
+  name: string;
+  item_type: "addon";
+  emoji: string | null;
+  icon: string | null;
+  qty_available: number;
+  qty_available_unit: string;
+  low_stock_threshold: number;
+  is_low_stock: boolean;
+  is_available: boolean;
+  price_per_unit: string;
+  calories_per_unit: string;
+  min_qty_g: number | null;
+  max_percent_limit: number | null;
+}
+
+export interface MachineInventory {
+  machine_id: string;
+  machine_location: string;
+  machine_status: string;
+  ingredients: Ingredient[];
+  addons: AddonItem[];
+  last_updated: string;
+}
+
+export interface Preset {
+  machine_id: string;
+  machine_location: string;
+  preset_id: string;
+  preset_name: string;
+  preset_category: "smoothie" | "salad";
+  preset_price: number;
+  preset_calories: number;
+  preset_description: string;
+  preset_image: string;
+  availability_status: "AVAILABLE" | "UNAVAILABLE";
+  missing_ingredients: string[] | null;
+}
+
+export interface PresetsResponse {
+  presets: Preset[];
+}

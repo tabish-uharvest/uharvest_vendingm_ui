@@ -1,14 +1,15 @@
 import { useLocation } from 'wouter';
-import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { useVendingStore } from '@/lib/store';
-import { api } from '@/lib/api';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FloatingAnimation from '@/components/floating-animation';
+
+// Import the original components with backend integration
 import { CreateTabContent } from '@/components/tabs/CreateTabContent';
 import { SavedTabContent } from '@/components/tabs/SavedTabContent';
 import { OriginalsTabContent } from '@/components/tabs/OriginalsTabContent';
+
 import { MenuItem } from '@shared/schema';
 import { useState, useEffect } from 'react';
 
@@ -21,12 +22,6 @@ export default function ItemsPage() {
     // Update local state when selectedTab changes in store
     setActiveTab(selectedTab);
   }, [selectedTab]);
-
-  const { data: items, isLoading } = useQuery({
-    queryKey: ['/api/menu', currentCategory],
-    queryFn: () => api.getMenuItemsByCategory(currentCategory),
-    enabled: !!currentCategory
-  });
 
   const handleSelectItem = (item: MenuItem) => {
     setSelectedItem(item);
@@ -89,11 +84,15 @@ export default function ItemsPage() {
             </TabsList>
 
             <div className="h-[calc(100vh-160px)] overflow-y-auto mt-16 pb-24 scrollbar-hide">
+              {/* Create Tab - Using original component with backend integration */}
               <CreateTabContent category={currentCategory} />
+              
+              {/* Saved Tab - Using legacy component for now */}
               <SavedTabContent category={currentCategory} />
+              
+              {/* Originals Tab - Using original component with backend integration */}
               <OriginalsTabContent 
-                items={items} 
-                isLoading={isLoading} 
+                category={currentCategory}
                 onSelectItem={handleSelectItem}
               />
             </div>

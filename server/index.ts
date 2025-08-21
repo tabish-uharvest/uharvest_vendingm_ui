@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
@@ -35,6 +36,12 @@ app.use((req, res, next) => {
 
   next();
 });
+
+app.use(cors({
+  origin: "*",  // or "*" if you want to allow all
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 
 (async () => {
   const server = await registerRoutes(app);

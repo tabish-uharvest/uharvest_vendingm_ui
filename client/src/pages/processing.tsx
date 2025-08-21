@@ -2,11 +2,16 @@ import { useLocation } from 'wouter';
 import { useEffect } from 'react';
 import { Brush } from 'lucide-react';
 import { useVendingStore } from '@/lib/store';
+import { useOrderDetails, useUpdateOrderStatus } from '@/hooks/useMachineData';
 import ProgressBar from '@/components/progress-bar';
 
 export default function ProcessingPage() {
   const [, setLocation] = useLocation();
   const { currentOrderId, selectedItem } = useVendingStore();
+  
+  // Poll order status
+  const { data: orderData, isLoading } = useOrderDetails(currentOrderId || '');
+  const updateOrderStatusMutation = useUpdateOrderStatus();
 
   useEffect(() => {
     // If there's no order ID or selected item, redirect back to the home page
@@ -15,16 +20,49 @@ export default function ProcessingPage() {
       return;
     }
     
-    // If we have the required data, make sure the UI is updated
-    console.log('Processing order:', currentOrderId, 'for item:', selectedItem.name);
-  }, [currentOrderId, selectedItem, setLocation]);
+    // Check order status and handle transitions
+    if (orderData) {
+      const order = orderData as any;
+      console.log('Order status:', order.status);
+      
+      if (order.status === 'completed') {
+        // Order is complete, go to thank you page
+        setLocation('/thank-you');
+      } else if (order.status === 'failed' || order.status === 'cancelled') {
+        // Order failed or was cancelled, go back to items
+        setLocation('/items');
+      }
+    }
+  }, [currentOrderId, selectedItem, orderData, setLocation]);
 
   const handleProcessingComplete = () => {
-    console.log('Processing complete, navigating to thank-you page');
-    // Use a small timeout to ensure state is settled before navigation
-    setTimeout(() => {
-      setLocation('/thank-you');
-    }, 100);
+    console.log('Processing simulation complete, marking order as completed');
+    
+    if (currentOrderId) {
+      // Update order status to completed
+      updateOrderStatusMutation.mutate(
+        { orderId: currentOrderId, status: 'completed' },
+        {
+          onSuccess: () => {
+            setTimeout(() => {
+              setLocation('/thank-you');
+            }, 100);
+          },
+          onError: (error) => {
+            console.error('Failed to mark order as completed:', error);
+            // Still navigate to thank you page
+            setTimeout(() => {
+              setLocation('/thank-you');
+            }, 100);
+          }
+        }
+      );
+    } else {
+      // Fallback if no order ID
+      setTimeout(() => {
+        setLocation('/thank-you');
+      }, 100);
+    }
   };
 
   if (!currentOrderId || !selectedItem) {
