@@ -43,6 +43,15 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
+// Health check endpoint for Docker
+app.get('/health', (_req: Request, res: Response) => {
+  res.status(200).json({ 
+    status: 'healthy', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+});
+
 (async () => {
   const server = await registerRoutes(app);
 
