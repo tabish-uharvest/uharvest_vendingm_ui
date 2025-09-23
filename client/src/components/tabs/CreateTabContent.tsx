@@ -103,7 +103,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
       }
       
       // Check if adding 10% more would exceed total 100%
-      if (totalPercentage + 10 > 100) {
+      if (totalPercentage + 20 > 100) {
         setAlert(`The ${containerType} is already full. Please remove something first.`);
         setTimeout(() => setAlert(null), 3000);
         return;
@@ -112,12 +112,12 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
       // Increase percentage
       setSelectedIngredients(selectedIngredients.map(item => 
         item.id === ingredient.id 
-          ? { ...item, currentPercentage: item.currentPercentage + 10 } 
+          ? { ...item, currentPercentage: item.currentPercentage + 20 } 
           : item
       ));
     } else {
       // Check if adding a new ingredient would exceed total 100%
-      if (totalPercentage + 10 > 100) {
+      if (totalPercentage + 20 > 100) {
         setAlert(`The ${containerType} is already full. Please remove something first.`);
         setTimeout(() => setAlert(null), 3000);
         return;
@@ -133,7 +133,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
       // Add new ingredient with 10% to start
       setSelectedIngredients([
         ...selectedIngredients,
-        { ...ingredient, currentPercentage: 10 }
+        { ...ingredient, currentPercentage: 20 }
       ]);
     }
   };
@@ -150,7 +150,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
       // Otherwise decrease by 10%
       setSelectedIngredients(selectedIngredients.map(item => 
         item.id === id 
-          ? { ...item, currentPercentage: item.currentPercentage - 10 } 
+          ? { ...item, currentPercentage: item.currentPercentage - 20 } 
           : item
       ));
     }
@@ -278,7 +278,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
-                          {ingredient.currentPercentage > 10 ? (
+                          {ingredient.currentPercentage > 20 ? (
                             <Button
                               onClick={() => decreaseIngredient(ingredient.id)}
                               className="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full w-10 h-10 p-1 flex items-center justify-center"
