@@ -257,10 +257,102 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
             ))}
           </div>
         </div>
+
+        {/* Sweet Selection Carousel */}
+        <div className="mb-8">
+          <h4 className="text-white text-xl font-bold mb-4">Add Sweets to Your Box</h4>
+          <div className="overflow-x-auto pb-4 scrollbar-hide">
+            <div className="flex gap-6">
+              {availableIngredients.map((ingredient) => {
+                // Check if this ingredient is at max capacity
+                const existingItem = selectedIngredients.find(item => item.id === ingredient.id);
+                const isAtMax = existingItem && existingItem.currentPercentage >= ingredient.maxPercentage;
+                const isAdded = Boolean(existingItem);
+                const isMaxIngredient = existingItem?.id === selectedIngredients.find(item => 
+                  item.currentPercentage >= item.maxPercentage && maxIndicatorVisible)?.id;
+                
+                return (
+                  <div 
+                    key={ingredient.id} 
+                    className="flex flex-col items-center gap-2"
+                  >
+                    <Button
+                      onClick={() => addIngredient(ingredient)}
+                      disabled={isAtMax}
+                      className={`h-32 w-32 rounded-full flex-shrink-0 flex items-center justify-center transition-all relative overflow-hidden ${
+                        isAtMax 
+                          ? 'bg-gray-500/50 border-2 border-red-400' 
+                          : isAdded
+                            ? 'bg-white/90 border-2 border-urban-yellow' 
+                            : 'bg-white hover:bg-white/90'
+                      }`}
+                      variant="ghost"
+                    >
+                      <img 
+                        src={`/src/assets/${ingredient.image}`} 
+                        alt={ingredient.name}
+                        className={`w-20 h-20 object-contain ${isAtMax ? 'opacity-60' : ''}`}
+                      />
+                      {isAtMax ? (
+                        <div className={`absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black/40 backdrop-blur-sm ${isMaxIngredient ? 'animate-pulse' : ''}`}>
+                          <div className="bg-red-500 text-white px-2 py-1 rounded-md font-bold text-xs transform rotate-12">
+                            MAX
+                          </div>
+                        </div>
+                      ) : (
+                        isAdded && (
+                          <div className="absolute top-0 right-0 w-8 h-8 bg-urban-yellow text-black rounded-full flex items-center justify-center">
+                            {/* Plus icon removed as requested */}
+                          </div>
+                        )
+                      )}
+                    </Button>
+                    <div className="flex flex-col items-center text-center max-w-[140px]">
+                      <span className="text-white text-sm font-medium">{ingredient.name}</span>
+                      <span className="text-urban-yellow text-xs">{ingredient.price}</span>
+                      {isAdded && (
+                        <span className={`text-xs ${isAtMax ? 'text-red-400 font-semibold' : 'text-urban-yellow'}`}>
+                          {existingItem?.currentPercentage}% {isAtMax && '(MAX)'}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
         
         {/* Main Content Area */}
         <div className="grid md:grid-cols-2 gap-6 w-full min-h-[630px] overflow-hidden">
-          {/* Left side - Ingredient List */}
+          {/* Box Visualization (Moved from right to left) */}
+          <div className="bg-white bg-opacity-10 rounded-2xl p-5 flex flex-col items-center justify-center relative h-[630px]">
+            {/* Box Visualization */}
+            <div className="relative w-full mt-4 max-w-[350px]">
+              <div className="w-full flex items-end justify-center relative">
+                {/* Box Image */}
+                <div className="relative w-full max-w-[350px] h-[450px]">
+                  <img 
+                    src={boxImage} 
+                    alt="Sweet Box" 
+                    className="w-full h-full object-contain absolute top-0 left-0 z-10"
+                  />
+                </div>
+              </div>
+            </div>
+            
+            {/* Percentage display on box */}
+            <div className="mt-2 text-center">
+              <div className="text-white text-2xl font-bold">
+                {Math.min(100, (totalPercentage / (100 * selectedVariant.maxPercentageMultiplier)) * 100).toFixed(0)}%
+              </div>
+              <div className="text-sm text-white/70">
+                {(totalPercentage * 10).toFixed(0)} / {1000 * selectedVariant.maxPercentageMultiplier} grams
+              </div>
+            </div>
+          </div>
+
+          {/* Ingredient List (Moved from left to right) */}
           <div className="bg-white bg-opacity-10 rounded-2xl p-5 flex flex-col h-[630px]">
             <h4 className="text-white text-2xl font-bold mb-4">
               {selectedIngredients.length > 0 ? "Your Selection" : "Pick Sweets"}
@@ -336,98 +428,10 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
             </div>
           </div>
           
-          {/* Right side - Box Visualization */}
-          <div className="bg-white bg-opacity-10 rounded-2xl p-5 flex flex-col items-center justify-center relative h-[630px]">
-            {/* Box Visualization */}
-            <div className="relative w-full mt-4 max-w-[350px]">
-              <div className="w-full flex items-end justify-center relative">
-                {/* Box Image */}
-                <div className="relative w-full max-w-[350px] h-[450px]">
-                  <img 
-                    src={boxImage} 
-                    alt="Sweet Box" 
-                    className="w-full h-full object-contain absolute top-0 left-0 z-10"
-                  />
-                </div>
-              </div>
-            </div>
-            
-            {/* Percentage display on box */}
-            <div className="mt-2 text-center">
-              <div className="text-white text-2xl font-bold">
-                {Math.min(100, (totalPercentage / (100 * selectedVariant.maxPercentageMultiplier)) * 100).toFixed(0)}%
-              </div>
-              <div className="text-sm text-white/70">
-                {(totalPercentage * 10).toFixed(0)} / {1000 * selectedVariant.maxPercentageMultiplier} grams
-              </div>
-            </div>
-          </div>
+
         </div>
         
-        {/* Sweet Selection Carousel */}
-        <div className="mt-8">
-          <h4 className="text-white text-xl font-bold mb-4">Add Sweets to Your Box</h4>
-          <div className="overflow-x-auto pb-4 scrollbar-hide">
-            <div className="flex gap-6">
-              {availableIngredients.map((ingredient) => {
-                // Check if this ingredient is at max capacity
-                const existingItem = selectedIngredients.find(item => item.id === ingredient.id);
-                const isAtMax = existingItem && existingItem.currentPercentage >= ingredient.maxPercentage;
-                const isAdded = Boolean(existingItem);
-                const isMaxIngredient = existingItem?.id === selectedIngredients.find(item => 
-                  item.currentPercentage >= item.maxPercentage && maxIndicatorVisible)?.id;
-                
-                return (
-                  <div 
-                    key={ingredient.id} 
-                    className="flex flex-col items-center gap-2"
-                  >
-                    <Button
-                      onClick={() => addIngredient(ingredient)}
-                      disabled={isAtMax}
-                      className={`h-20 w-20 rounded-full flex-shrink-0 flex items-center justify-center transition-all relative overflow-hidden ${
-                        isAtMax 
-                          ? 'bg-gray-500/50 border-2 border-red-400' 
-                          : isAdded
-                            ? 'bg-white/90 border-2 border-urban-yellow' 
-                            : 'bg-white hover:bg-white/90'
-                      }`}
-                      variant="ghost"
-                    >
-                      <img 
-                        src={`/src/assets/${ingredient.image}`} 
-                        alt={ingredient.name}
-                        className={`w-12 h-12 object-contain ${isAtMax ? 'opacity-60' : ''}`}
-                      />
-                      {isAtMax ? (
-                        <div className={`absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black/40 backdrop-blur-sm ${isMaxIngredient ? 'animate-pulse' : ''}`}>
-                          <div className="bg-red-500 text-white px-2 py-1 rounded-md font-bold text-xs transform rotate-12">
-                            MAX
-                          </div>
-                        </div>
-                      ) : (
-                        isAdded && (
-                          <div className="absolute top-0 right-0 w-6 h-6 bg-urban-yellow text-black rounded-full flex items-center justify-center">
-                            {/* Plus icon removed as requested */}
-                          </div>
-                        )
-                      )}
-                    </Button>
-                    <div className="flex flex-col items-center text-center max-w-[100px]">
-                      <span className="text-white text-sm font-medium">{ingredient.name}</span>
-                      <span className="text-urban-yellow text-xs">{ingredient.price}</span>
-                      {isAdded && (
-                        <span className={`text-xs ${isAtMax ? 'text-red-400 font-semibold' : 'text-urban-yellow'}`}>
-                          {existingItem?.currentPercentage}% {isAtMax && '(MAX)'}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
+
         
         {/* Main Action Button */}
         <div className="mt-8 flex justify-center">
@@ -448,9 +452,11 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
         
         {/* Alert Message */}
         {alert && (
-          <div className="fixed bottom-32 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-8 py-5 rounded-xl flex items-center gap-3 z-30 shadow-xl animate-in fade-in slide-in-from-bottom-5 duration-300 border-l-4 border-urban-yellow">
-            <AlertCircle className="text-urban-yellow w-6 h-6 flex-shrink-0" />
-            <p className="text-lg font-medium">{alert}</p>
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="bg-black/90 text-white px-10 py-6 rounded-2xl flex items-center gap-4 shadow-2xl animate-in fade-in zoom-in duration-300 border-2 border-urban-yellow max-w-md">
+              <AlertCircle className="text-urban-yellow w-8 h-8 flex-shrink-0" />
+              <p className="text-2xl font-medium">{alert}</p>
+            </div>
           </div>
         )}
       </div>
