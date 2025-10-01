@@ -218,7 +218,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
       <div className="bg-white bg-opacity-5 rounded-3xl p-6 shadow-lg backdrop-blur-sm">
         {/* Header */}
         <h3 className="text-white text-4xl font-bold mb-6 text-center">
-          Create Your Sweet Box
+          Create Your Own Sweet Box
         </h3>
 
         {/* Box Size Selection */}
@@ -246,9 +246,9 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
                 <p className="text-sm mb-2 relative z-10 opacity-90">{variant.size}</p>
                 <p className={`${
                   selectedVariant.id === variant.id 
-                    ? 'text-white font-bold' 
-                    : 'text-urban-yellow group-hover:text-urban-yellow/80'
-                  } font-semibold relative z-10 transition-colors`}>
+                    ? 'text-white font-bold text-[1.1rem]' 
+                    : 'text-urban-yellow group-hover:text-urban-yellow/80 text-[1.1rem] font-bold'
+                  } relative z-10 transition-colors`}>
                   {selectedVariant.id === variant.id && totalPrice > 0 
                     ? `₹${Math.ceil(totalPrice).toLocaleString('en-IN')}` 
                     : 'Price varies by selection'}
@@ -308,8 +308,8 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
                       )}
                     </Button>
                     <div className="flex flex-col items-center text-center max-w-[140px]">
-                      <span className="text-white text-sm font-medium">{ingredient.name}</span>
-                      <span className="text-urban-yellow text-xs">{ingredient.price}</span>
+                      <span className="text-white text-sm font-medium font-bold">{ingredient.name}</span>
+                      <span className="text-urban-yellow text-medium font-bold">{ingredient.price}</span>
                       {isAdded && (
                         <span className={`text-xs ${isAtMax ? 'text-red-400 font-semibold' : 'text-urban-yellow'}`}>
                           {existingItem?.currentPercentage}% {isAtMax && '(MAX)'}
