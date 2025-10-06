@@ -1,57 +1,55 @@
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
-import { Play, Leaf } from 'lucide-react';
+import { Play } from 'lucide-react';
 import { useVendingStore } from '@/lib/store';
 import FloatingAnimation from '@/components/floating-animation';
 
 export default function WelcomePage() {
   const [, setLocation] = useLocation();
-  const resetApp = useVendingStore(state => state.resetApp);
+  const { resetApp, setCategory, setSelectedTab } = useVendingStore();
 
   const handleStart = () => {
     resetApp();
-    setLocation('/selection');
+    // Set default category and tab before navigation
+    setCategory('sweets');
+    setSelectedTab('create');
+    setLocation('/items');
   };
 
   return (
-    <div className="absolute inset-0 urban-green flex flex-col items-center justify-center p-8">
-      <FloatingAnimation />
-      
-      {/* Logo */}
-      <div className="flex flex-col items-center mb-16 z-10">
+    <div className="welcome-container">
+      {/* Floating sweets background */}
+      <FloatingAnimation className="z-0 opacity-80" />
+
+      {/* Logo & Tagline */}
+      <div className="logo-section">
         <img
-          src={"/src/assets/uharvest.png"}
-          alt="Urban Harvest Logo"
-          className="w-[40rem] h-auto mb-10 drop-shadow-2xl select-none pointer-events-none ml-20"
+          src={"/src/assets/haldiram.png"}
+          alt="Haldiram Logo"
+          className="logo-img"
           draggable={false}
         />
-        {/* <div className="text-urban-yellow text-3xl font-medium text-center">
-          Fresh • Healthy • Ready
-        </div> */}
+        <div className="tagline">Taste of Tradition</div>
       </div>
-      
-      {/* Welcome Message */}
-      <h1 className="text-urban-white text-8xl font-bold text-center mb-16 leading-tight z-10">
-        Welcome to <span className="text-urban-yellow">Healthy Living</span>
+
+      {/* Welcome Heading */}
+      <h1 className="welcome-title">
+        Welcome to <span className="highlight-text">Sweet Customisation</span>
       </h1>
-      
+
       {/* Start Button */}
-      <div className="relative z-10 group">
-        <div className="absolute -inset-1 bg-gradient-to-r from-urban-yellow via-yellow-400 to-urban-yellow rounded-3xl blur-md opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-300 animate-pulse"></div>
+      <div className="start-btn-wrapper">
         <Button 
           onClick={handleStart}
-          className="relative urban-yellow text-black text-5xl font-bold py-10 px-32 h-auto rounded-3xl shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 touch-btn-large border-2 border-urban-green/20 hover:border-urban-green/50 group-hover:brightness-110"
+          className="start-btn-rect animate-glow"
         >
-          <div className="absolute inset-0 rounded-3xl overflow-hidden">
-            <div className="absolute inset-0 bg-urban-yellow opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-          </div>
-          <Play className="mr-8 w-14 h-14 group-hover:scale-110 transition-transform duration-300" />
-          <span className="relative z-10">Start Now</span>
+         <span>Start Now</span> 
         </Button>
       </div>
-      
-      <p className="text-urban-white text-2xl mt-12 text-center opacity-80 z-10">
-        Touch Start to begin your healthy journey
+
+      {/* Footer Text */}
+      <p className="footer-text animate-fade-in">
+        Touch Start to begin your sweet journey
       </p>
     </div>
   );

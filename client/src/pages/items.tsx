@@ -45,13 +45,13 @@ export default function ItemsPage() {
         {/* Header */}
         <div className="p-4 sticky top-0 z-20 bg-urban-green flex items-center justify-between">
           <Button
-            onClick={() => setLocation('/selection')}
+            onClick={() => setLocation('/')}
             className="bg-white bg-opacity-20 text-white px-4 py-3 rounded-xl hover:bg-opacity-30 transition-all touch-btn flex items-center gap-2"
             variant="ghost"
           >
             <ArrowLeft className="w-5 h-5" />
             <span className="text-sm font-medium">
-              Back to Selection
+              Back to Home.
             </span>
           </Button>
 

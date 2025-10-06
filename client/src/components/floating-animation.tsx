@@ -1,10 +1,27 @@
+interface FloatingElement {
+  image: string;  
+}
+
 interface FloatingAnimationProps {
-  elements?: string[];
+  elements?: FloatingElement[] ;
   className?: string;
 }
 
 export default function FloatingAnimation({ 
-  elements = ['🥬', '🥕', '🍎', '🥒', '🍊', '🥑', '🍌', '🥗', '🥝', '🍅', '🥭', '🫐'],
+  elements = [
+    { image: '/src/assets/1.png' },
+    { image: '/src/assets/2.png' },
+    { image: '/src/assets/3.png' },
+    { image: '/src/assets/4.png' },
+    { image: '/src/assets/5.png' },
+    { image: '/src/assets/6.png' },
+    { image: '/src/assets/7.png' },
+    { image: '/src/assets/8.png' },
+    { image: '/src/assets/9.png' },
+    { image: '/src/assets/10.png' },
+    { image: '/src/assets/11.png' },
+    { image: '/src/assets/12.png' },
+  ],
   className = ""
 }: FloatingAnimationProps) {
   const positions = [
@@ -28,11 +45,12 @@ export default function FloatingAnimation({
         <div
           key={index}
           className={`floating-element absolute animate-float ${positions[index] || positions[0]}`}
-          style={{
-            // Using the CSS preset delays and duration
-          }}
         >
-          {element}
+          <img
+            src={element.image}
+            alt=""
+            className="w-24 h-24 opacity-90"
+          />
         </div>
       ))}
     </div>
