@@ -297,7 +297,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
                     <Button
                       onClick={() => addIngredient(ingredient)}
                       disabled={isAtMax}
-                      className={`h-32 w-32 rounded-full flex-shrink-0 flex items-center justify-center transition-all relative overflow-hidden ${
+                      className={`h-32 w-32 rounded-full flex-shrink-0 flex items-center justify-center transition-all relative overflow-hidden p-0 ${
                         isAtMax 
                           ? 'bg-gray-500/50 border-2 border-red-400' 
                           : isAdded
@@ -309,7 +309,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
                       <img 
                         src={`/src/assets/${ingredient.image}`} 
                         alt={ingredient.name}
-                        className={`w-20 h-20 object-contain ${isAtMax ? 'opacity-60' : ''}`}
+                        className={`w-full h-full object-cover p-2 ${isAtMax ? 'opacity-60' : ''}`}
                       />
                       {isAtMax ? (
                         <div className={`absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black/40 backdrop-blur-sm ${isMaxIngredient ? 'animate-pulse' : ''}`}>
