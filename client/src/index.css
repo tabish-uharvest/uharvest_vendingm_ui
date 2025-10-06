@@ -334,7 +334,7 @@ input, textarea {
 }
 
 .start-btn-rect span {
-  margin-top: 38px; /* Adds 7px space above the text */
+  margin-top: 58px; 
 }
 
 .start-btn-rect:hover {
