@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Plus, Minus, X, AlertCircle } from "lucide-react";
+import { useLocation } from "wouter";
+import { useVendingStore } from "@/lib/store";
 import boxImage from "@/assets/box.png";
 
 // Props interface
@@ -214,6 +216,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
   };
   
   // Handle recipe confirmation
+  const [, setLocation] = useLocation();
   const confirmRecipe = () => {
     const maxPercentage = 100 * selectedVariant.maxPercentageMultiplier;
     if (totalPercentage < maxPercentage) {
@@ -222,13 +225,11 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
       return;
     }
     
-    // TODO: Save recipe or proceed to next step
-    setAlert("Sweet box created successfully! 🎉");
-    setTimeout(() => {
-      setAlert(null);
-      // Reset form for next creation
-      setSelectedIngredients([]);
-    }, 3000);
+    // Generate a random order ID for the sweet box
+    const orderId = `SB${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+    // Set the order ID in the store and navigate
+    useVendingStore.setState({ currentOrderId: orderId });
+    setLocation('/thank-you');
   };
 
   return (

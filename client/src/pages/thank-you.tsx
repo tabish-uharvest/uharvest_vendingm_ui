@@ -48,39 +48,39 @@ export default function ThankYouPage() {
   const celebrationElements = ['🎉', '✨', '🥤', '🥗'];
 
   return (
-    <div className="absolute inset-0 urban-green flex flex-col items-center justify-center p-6">
+    <div className="absolute inset-0 bg-white flex flex-col items-center justify-center p-6">
       <FloatingAnimation elements={celebrationElements} />
       
-      <div className="text-center z-10">
+      <div className="text-center z-10 bg-white bg-opacity-5 rounded-3xl p-8 shadow-lg backdrop-blur-sm border-2 border-[#DF4530] max-w-2xl w-full">
         {/* Success Icon */}
         <div className="mb-8">
-          <CheckCircle className="w-20 h-20 text-green-400 mx-auto" />
+          <CheckCircle className="w-20 h-20 text-[#DF4530] mx-auto" />
         </div>
         
-        <h2 className="text-urban-white text-4xl font-bold mb-6">
-          Thanks! Your order is ready.
+        <h2 className="text-black text-4xl font-bold mb-6">
+          Your Sweet Box is Ready!
         </h2>
         
-        <div className="bg-white bg-opacity-20 rounded-xl p-6 mb-8">
-          <p className="text-urban-white text-xl mb-2">
-            Order: <span className="font-bold text-urban-yellow">{currentOrderId}</span>
+        <div className="bg-white rounded-2xl p-6 mb-8 border-2 border-[#DF4530]">
+          <p className="text-black text-xl mb-2">
+            Order ID: <span className="font-bold text-[#DF4530]">{currentOrderId}</span>
           </p>
-          <p className="text-urban-white text-lg opacity-80">
-            Please collect your order from the pickup area
+          <p className="text-black text-lg opacity-80">
+            Please collect your sweet box from the pickup area
           </p>
         </div>
         
         {/* Order Again Button */}
         <Button
           onClick={handleOrderAgain}
-          className="urban-yellow text-black text-2xl font-bold py-4 px-8 h-auto rounded-xl shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95 mb-6 touch-btn-large"
+          className="bg-[#DF4530] text-white text-2xl font-bold py-4 px-8 h-auto rounded-xl shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95 mb-6 touch-btn-large border-2 border-[#DF4530]"
         >
           <RotateCcw className="mr-3 w-6 h-6" />
-          Order Again
+          Create Another Box
         </Button>
         
-        <p className="text-urban-white text-lg opacity-80">
-          Returning to welcome screen in <span className="font-bold text-urban-yellow">{countdown}</span> seconds...
+        <p className="text-black text-lg opacity-80">
+          Returning to home in <span className="font-bold text-[#DF4530]">{countdown}</span> seconds...
         </p>
       </div>
     </div>
