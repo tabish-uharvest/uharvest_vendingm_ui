@@ -263,7 +263,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
                 <p className={`${
                   selectedVariant.id === variant.id 
                     ? 'text-white font-bold text-[1.1rem]' 
-                    : 'text-urban-yellow group-hover:text-urban-yellow/80 text-[1.1rem] font-bold'
+                    : 'text-black  group-hover:text-urban-yellow/80 text-[1.1rem] font-bold'
                   } relative z-10 transition-colors`}>
                   {selectedVariant.id === variant.id && totalPrice > 0 
                     ? `₹${Math.ceil(totalPrice).toLocaleString('en-IN')}` 
@@ -325,9 +325,9 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
                     </Button>
                     <div className="flex flex-col items-center text-center max-w-[140px]">
                       <span className="text-black text-sm font-medium font-bold">{ingredient.name}</span>
-                      <span className="text-urban-yellow text-medium font-bold">{ingredient.price}</span>
+                      <span className="text-black text-medium font-bold">{ingredient.price}</span>
                       {isAdded && (
-                        <span className={`text-xs ${isAtMax ? 'text-red-400 font-semibold' : 'text-urban-yellow'}`}>
+                        <span className={`text-xs ${isAtMax ? 'text-red-400 font-bold' : 'text-black font bold'}`}>
                           {existingItem?.currentPercentage}% {isAtMax && '(MAX)'}
                         </span>
                       )}
