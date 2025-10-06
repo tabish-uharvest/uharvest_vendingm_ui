@@ -41,8 +41,9 @@ input, textarea {
   --destructive-foreground: hsl(60, 9.1%, 97.8%);
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
-  --urban-green: hsl(12, 91%, 56%);
+  /* --urban-green: hsl(12, 91%, 56%); */
   --urban-yellow: hsl(45, 100%, 50%);
+  --urban-green: hsl(15, 17%, 95%);
   --urban-white: hsl(0, 0%, 100%);
   --urban-black: hsl(0, 0%, 0%);
 }

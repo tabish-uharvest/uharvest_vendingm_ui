@@ -233,15 +233,15 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
 
   return (
     <TabsContent value="create" className="scrollbar-hide pb-20">
-      <div className="bg-white bg-opacity-5 rounded-3xl p-6 shadow-lg backdrop-blur-sm">
+      <div className="bg-white bg-opacity-5 rounded-3xl p-6 shadow-lg backdrop-blur-sm border-2 border-[#DF4530]">
         {/* Header */}
-        <h3 className="text-white text-4xl font-bold mb-6 text-center">
+        <h3 className="text-black text-4xl font-bold mb-6 text-center">
           Create Your Own Sweet Box
         </h3>
 
         {/* Box Size Selection */}
         <div className="mb-8">
-          <h4 className="text-white text-xl font-bold mb-4">Select Box Size</h4>
+          <h4 className="text-black text-xl font-bold mb-4">Select Box Size</h4>
           <div className="grid grid-cols-3 gap-4">
             {boxVariants.map((variant) => (
               <button
@@ -253,13 +253,10 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
                 }}
                 className={`${
                   selectedVariant.id === variant.id
-                    ? 'bg-gradient-to-br from-urban-yellow to-amber-500 border-2 border-urban-yellow shadow-lg shadow-urban-yellow/20 text-white scale-105'
-                    : 'bg-white bg-opacity-10 text-white hover:bg-opacity-20 hover:border-urban-yellow/50 border-2 border-transparent'
+                    ? 'bg-[#DF4530] border-2 border-[#DF4530] shadow-lg text-black scale-105'
+                    : 'bg-white bg-opacity-10 text-black hover:bg-opacity-20 border-2 border-[#DF4530]'
                 } p-4 rounded-xl transition-all duration-300 text-center relative overflow-hidden group`}
               >
-                {selectedVariant.id === variant.id && (
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                )}
                 <h5 className="text-lg font-bold mb-1 relative z-10">{variant.name}</h5>
                 <p className="text-sm mb-2 relative z-10 opacity-90">{variant.size}</p>
                 <p className={`${
@@ -278,7 +275,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
 
         {/* Sweet Selection Carousel */}
         <div className="mb-8">
-          <h4 className="text-white text-xl font-bold mb-4">Add Sweets to Your Box</h4>
+          <h4 className="text-black text-xl font-bold mb-4">Add Sweets to Your Box</h4>
           <div className="overflow-x-auto pb-4 scrollbar-hide">
             <div className="flex gap-6">
               {availableIngredients.map((ingredient) => {
@@ -301,8 +298,8 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
                         isAtMax 
                           ? 'bg-gray-500/50 border-2 border-red-400' 
                           : isAdded
-                            ? 'bg-white/90 border-2 border-urban-yellow' 
-                            : 'bg-white hover:bg-white/90'
+                            ? 'bg-[#FAC44B]/70 border-2 border-[#FAC44B]' 
+                            : 'bg-[#FAC44B]/60 hover:bg-[#FAC44B]/70 border-2 border-transparent'
                       }`}
                       variant="ghost"
                     >
@@ -326,7 +323,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
                       )}
                     </Button>
                     <div className="flex flex-col items-center text-center max-w-[140px]">
-                      <span className="text-white text-sm font-medium font-bold">{ingredient.name}</span>
+                      <span className="text-black text-sm font-medium font-bold">{ingredient.name}</span>
                       <span className="text-urban-yellow text-medium font-bold">{ingredient.price}</span>
                       {isAdded && (
                         <span className={`text-xs ${isAtMax ? 'text-red-400 font-semibold' : 'text-urban-yellow'}`}>
@@ -344,7 +341,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
         {/* Main Content Area */}
         <div className="grid md:grid-cols-2 gap-6 w-full min-h-[630px] overflow-hidden">
           {/* Box Visualization (Moved from right to left) */}
-          <div className="bg-white bg-opacity-10 rounded-2xl p-5 flex flex-col items-center justify-center relative h-[630px]">
+          <div className=" rounded-2xl p-5 flex flex-col items-center justify-center relative h-[630px] border-2 border-[#DF4530]">
             {/* Box Visualization */}
             <div className="relative w-full mt-4 max-w-[350px]">
               <div className="w-full flex items-end justify-center relative">
@@ -361,10 +358,10 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
             
             {/* Percentage display on box */}
             <div className="mt-2 text-center">
-              <div className="text-white text-2xl font-bold">
+              <div className="text-black text-2xl font-bold">
                 {Math.min(100, (totalPercentage / (100 * selectedVariant.maxPercentageMultiplier)) * 100).toFixed(0)}%
               </div>
-              <div className="text-sm text-white/70">
+              <div className="text-sm text-black/70">
                 {(totalPercentage * 10).toFixed(0)} / {1000 * selectedVariant.maxPercentageMultiplier} grams
               </div>
             </div>
@@ -372,7 +369,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
 
           {/* Ingredient List (Moved from left to right) */}
           <div className="bg-white bg-opacity-10 rounded-2xl p-5 flex flex-col h-[630px]">
-            <h4 className="text-white text-2xl font-bold mb-4">
+            <h4 className="text-black text-2xl font-bold mb-4">
               {selectedIngredients.length > 0 ? "Your Selection" : "Pick Sweets"}
             </h4>
             
@@ -381,7 +378,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
                 {selectedIngredients.map(ingredient => (
                   <div 
                     key={ingredient.id}
-                    className="bg-white bg-opacity-20 rounded-xl p-3 flex items-center justify-between"
+                    className="bg-[#DF4530] rounded-xl p-3 flex items-center justify-between shadow-md"
                   >
                     <div className="flex items-center gap-3">
                       <img 
@@ -392,14 +389,14 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
                       <div>
                         <p className="text-white text-xl font-semibold">{ingredient.name}</p>
                         <p className="text-urban-yellow">{ingredient.currentPercentage}%</p>
-                        <p className="text-white text-sm opacity-80">{ingredient.price}</p>
+                        <p className="text-white/90 text-sm">{ingredient.price}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
                       {ingredient.currentPercentage > 10 ? (
                         <Button
                           onClick={() => decreaseIngredient(ingredient.id)}
-                          className="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full w-10 h-10 p-1 flex items-center justify-center"
+                          className="bg-white/10 hover:bg-white/20 rounded-full w-10 h-10 p-1 flex items-center justify-center"
                           variant="ghost"
                         >
                           <Minus className="w-5 h-5 text-white" />
@@ -407,7 +404,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
                       ) : (
                         <Button
                           onClick={() => removeIngredient(ingredient.id)}
-                          className="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full w-10 h-10 p-1 flex items-center justify-center"
+                          className="bg-white/10 hover:bg-white/20 rounded-full w-10 h-10 p-1 flex items-center justify-center"
                           variant="ghost"
                         >
                           <X className="w-5 h-5 text-white" />
@@ -419,7 +416,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
               </div>
             ) : (
               <div className="flex-grow flex items-center justify-center">
-                <p className="text-white text-xl opacity-70 text-center">
+                <p className="text-black text-xl opacity-70 text-center">
                   Add sweets from below to start creating your sweet box
                 </p>
               </div>
@@ -427,20 +424,21 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
             
             {/* Fill percentage indicator */}
             <div className="mt-6 mb-2">
-              <div className="flex justify-between text-white mb-1">
+              <div className="flex justify-between text-black mb-1">
                 <p>Box Fill Level</p>
                 <p>{Math.min(100, (totalPercentage / (100 * selectedVariant.maxPercentageMultiplier)) * 100).toFixed(0)}%</p>
               </div>
               <div className="w-full bg-white bg-opacity-20 rounded-full h-4">
                 <div 
-                  className="h-full rounded-full urban-yellow"
+                  className="h-full rounded-full"
                   style={{ 
                     width: `${Math.min(100, (totalPercentage / (100 * selectedVariant.maxPercentageMultiplier)) * 100)}%`, 
-                    transition: 'width 0.3s ease' 
+                    transition: 'width 0.3s ease',
+                    backgroundColor: '#DF4530'
                   }}
                 ></div>
               </div>
-              <div className="mt-1 text-sm text-white/70 text-right">
+              <div className="mt-1 text-sm text-black/70 text-right">
                 {(totalPercentage * 10).toFixed(0)} / {1000 * selectedVariant.maxPercentageMultiplier} grams
               </div>
             </div>
@@ -458,9 +456,12 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
             disabled={totalPercentage < (100 * selectedVariant.maxPercentageMultiplier)}
             className={`text-2xl font-bold py-8 px-12 rounded-2xl shadow-xl transform transition-all duration-200 ${
               totalPercentage >= (100 * selectedVariant.maxPercentageMultiplier) 
-                ? 'urban-yellow text-black hover:scale-105 hover:shadow-2xl' 
-                : 'bg-white/20 text-white/70'
+                ? 'text-white hover:scale-105 hover:shadow-2xl' 
+                : 'bg-white/20 text-black border-2 border-[#DF4530]'
             }`}
+            style={{
+              backgroundColor: totalPercentage >= (100 * selectedVariant.maxPercentageMultiplier) ? '#DF4530' : 'transparent'
+            }}
           >
             {totalPercentage >= (100 * selectedVariant.maxPercentageMultiplier) 
               ? 'Create Sweet Box' 

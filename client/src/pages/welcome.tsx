@@ -34,7 +34,7 @@ export default function WelcomePage() {
 
       {/* Welcome Heading */}
       <h1 className="welcome-title">
-        Welcome to <span className="highlight-text">Sweet Customisation</span>
+        <span className="highlight-text">Customized Mithai Box</span>
       </h1>
 
       {/* Start Button */}

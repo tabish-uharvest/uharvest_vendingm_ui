@@ -46,25 +46,25 @@ export default function ItemsPage() {
         <div className="p-4 sticky top-0 z-20 bg-urban-green flex items-center justify-between">
           <Button
             onClick={() => setLocation('/')}
-            className="bg-white bg-opacity-20 text-white px-4 py-3 rounded-xl hover:bg-opacity-30 transition-all touch-btn flex items-center gap-2"
+            className="bg-white bg-opacity-20 text-white px-4 py-3 rounded-xl hover:bg-opacity-30 transition-all touch-btn flex items-center gap-2 border-2 border-[#DF4530]"
             variant="ghost"
           >
-            <ArrowLeft className="w-5 h-5" />
-            <span className="text-sm font-medium">
+            <ArrowLeft className="w-5 h-5 text-[#DF4530]" />
+            <span className="text-sm font-medium text-black">
               Back to Home.
             </span>
           </Button>
 
           <Button
             onClick={toggleFullscreen}
-            className="bg-white bg-opacity-20 text-white w-12 h-12 rounded-xl hover:bg-opacity-30 transition-all touch-btn flex items-center justify-center"
+            className="bg-white bg-opacity-20 text-white w-12 h-12 rounded-xl hover:bg-opacity-30 transition-all touch-btn flex items-center justify-center border-2 border-[#DF4530]"
             variant="ghost"
             title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
           >
             {isFullscreen ? (
-              <Minimize className="w-5 h-5" />
+              <Minimize className="w-5 h-5 text-[#DF4530]" />
             ) : (
-              <Maximize className="w-5 h-5" />
+              <Maximize className="w-5 h-5 text-[#DF4530]" />
             )}
           </Button>
         </div>
