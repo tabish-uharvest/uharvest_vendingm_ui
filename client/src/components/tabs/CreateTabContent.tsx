@@ -227,6 +227,42 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
     
     // Generate a random order ID for the sweet box
     const orderId = `SB${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+    
+    // Generate receipt content
+    const date = new Date().toLocaleString('en-IN', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    // Create ESC/POS commands for receipt
+    const escpos = 
+      "\x1B\x40" +                     // Initialize printer
+      "\x1B\x61\x31" +                 // Center align
+      "🍽️  Haldiram's  🍽️\n" +
+      `Order: ${orderId}\n` +
+      `${date}\n` +
+      "-----------------------------\n" +
+      "\x1B\x61\x30" +                 // Left align
+      `${selectedVariant.name} (${selectedVariant.size})\n` +
+      "-----------------------------\n" +
+      "Sr  Sweet           %    Price\n" +
+      "-----------------------------\n" +
+      selectedIngredients.map((item, index) => {
+        const price = extractPrice(item.price) * (item.currentPercentage / 100) * selectedVariant.maxPercentageMultiplier;
+        return `${(index + 1).toString().padEnd(4)}${item.name.slice(0, 15).padEnd(15)}${item.currentPercentage.toString().padEnd(5)}₹${Math.ceil(price)}\n`;
+      }).join('') +
+      "-----------------------------\n" +
+      "\x1B\x61\x32" +                 // Right align
+      `Total : ₹${Math.ceil(totalPrice)}\n` +
+      "\x1B\x61\x31" +                 // Center again
+      "Thank you! Visit again 🙏\n\n\n";
+
+    // Print receipt using RawBT
+    window.location.href = `rawbt://print?data=${encodeURIComponent(escpos)}`;
+    
     // Set the order ID in the store and navigate
     useVendingStore.setState({ currentOrderId: orderId });
     setLocation('/thank-you');
