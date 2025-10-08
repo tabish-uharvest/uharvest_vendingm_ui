@@ -217,7 +217,7 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
   
   // Handle recipe confirmation
   const [, setLocation] = useLocation();
-  const confirmRecipe = () => {
+  const confirmRecipe = async () => {
     const maxPercentage = 100 * selectedVariant.maxPercentageMultiplier;
     if (totalPercentage < maxPercentage) {
       setAlert(`Please fill the ${containerType} completely (${totalPercentage}/100%)`);
@@ -236,6 +236,26 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
       hour: '2-digit',
       minute: '2-digit'
     });
+
+    // Prepare order details for API
+    const orderDetails = {
+      orderId,
+      orderDate: new Date().toISOString(),
+      boxDetails: {
+        type: selectedVariant.name,
+        size: selectedVariant.size,
+        maxPercentageMultiplier: selectedVariant.maxPercentageMultiplier
+      },
+      items: selectedIngredients.map((item, index) => ({
+        serialNo: index + 1,
+        name: item.name,
+        percentage: item.currentPercentage,
+        pricePerKg: extractPrice(item.price),
+        totalPrice: extractPrice(item.price) * (item.currentPercentage / 100) * selectedVariant.maxPercentageMultiplier
+      })),
+      totalPrice: Math.ceil(totalPrice),
+      printData: {} // Will be filled after generating ESC/POS data
+    };
 
     // Create ESC/POS commands for receipt
     const escpos = 
@@ -260,12 +280,41 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
       "\x1B\x61\x31" +                 // Center again
       "Thank you! Visit again 🙏\n\n\n";
 
-    // Print receipt using RawBT
-    window.location.href = `rawbt://print?data=${encodeURIComponent(escpos)}`;
-    
-    // Set the order ID in the store and navigate
-    useVendingStore.setState({ currentOrderId: orderId });
-    setLocation('/thank-you');
+    // Add print data to order details
+    orderDetails.printData = {
+      rawEscpos: escpos,
+      formattedText: escpos.replace(/\x1B\x40|\x1B\x61\x31|\x1B\x61\x30|\x1B\x61\x32/g, '') // Clean version for storage
+    };
+
+    // ===== DEBUG REQUEST DATA START =====
+    console.log('Order Details Request:', JSON.stringify(orderDetails, null, 2));
+    // ===== DEBUG REQUEST DATA END =====
+
+    try {
+      // Send order details to API
+      const response = await fetch("https://sweetcounter.onrender.com/orderdetails", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderDetails)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save order details');
+      }
+
+      // Print receipt using RawBT
+      window.location.href = `rawbt://print?data=${encodeURIComponent(escpos)}`;
+      
+      // Set the order ID in the store and navigate
+      useVendingStore.setState({ currentOrderId: orderId });
+      setLocation('/thank-you');
+    } catch (error) {
+      console.error('Error saving order details:', error);
+      setAlert('Failed to process order. Please try again.');
+      setTimeout(() => setAlert(null), 3000);
+    }
   };
 
   return (
