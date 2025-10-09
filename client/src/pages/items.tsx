@@ -33,7 +33,7 @@ export default function ItemsPage() {
   }, []);
 
   if (!currentCategory) {
-    setLocation('/selection');
+    setLocation('/');
     return null;
   }
 
