@@ -79,10 +79,10 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
 
   // Available sweets with numbered images
   const availableIngredients = [
-  { id: 'kaju-katli', name: 'Kaju Katli', image: '1.png', price: '₹1,299 / kg', maxPercentage: 100 },
+  { id: 'kaju-katli', name: 'Kaju Katli', image: '1.png', price: '₹1299 / kg', maxPercentage: 100 },
   { id: 'soan-papdi', name: 'Soan Papdi', image: '2.png', price: '₹675 / kg', maxPercentage: 100 },
-  { id: 'petha-agra-taj-petha', name: 'Petha (Agra Taj Petha)', image: '3.png', price: '₹310 / kg', maxPercentage: 100 },
-  { id: 'kaju-sweets-category', name: 'Kaju Sweets (category)', image: '4.png', price: '₹571 / kg', maxPercentage: 100 },
+  { id: 'petha', name: 'Petha', image: '3.png', price: '₹310 / kg', maxPercentage: 100 },
+  { id: 'kaju-sweets', name: 'Kaju Sweets', image: '4.png', price: '₹571 / kg', maxPercentage: 100 },
   { id: 'coconut-burfi', name: 'Coconut Burfi', image: '5.png', price: '₹684 / kg', maxPercentage: 100 },
   { id: 'plain-burfi', name: 'Plain Burfi', image: '6.png', price: '₹678 / kg', maxPercentage: 100 },
   { id: 'pista-burfi', name: 'Pista Burfi', image: '7.png', price: '₹808 / kg', maxPercentage: 100 },
@@ -96,36 +96,87 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
   { id: 'mysore-pak', name: 'Mysore Pak', image: '15.png', price: '₹717 / kg', maxPercentage: 100 },
   { id: 'moong-dal-burfi', name: 'Moong Dal Burfi', image: '16.png', price: '₹381 / kg', maxPercentage: 100 },
   { id: 'special-pinni', name: 'Special Pinni', image: '17.png', price: '₹743 / kg', maxPercentage: 100 },
-  { id: 'gajra-bahar', name: 'Gajra Bahar', image: '18.png', price: '₹1,675 / kg', maxPercentage: 100 },
-  { id: 'badam-bhog', name: 'Badam Bhog', image: '19.png', price: '₹1,676 / kg', maxPercentage: 100 },
-  { id: 'madhu-milan', name: 'Madhu Milan', image: '20.png', price: '₹1,677 / kg', maxPercentage: 100 },
-  { id: 'pista-kali', name: 'Pista Kali', image: '21.png', price: '₹1,678 / kg', maxPercentage: 100 },
-  { id: 'anarkali', name: 'Anarkali', image: '22.png', price: '₹1,679 / kg', maxPercentage: 100 },
+  { id: 'gajra-bahar', name: 'Gajra Bahar', image: '18.png', price: '₹1675 / kg', maxPercentage: 100 }, // 67/pc
+  { id: 'badam-bhog', name: 'Badam Bhog', image: '19.png', price: '₹1675 / kg', maxPercentage: 100 },
+  { id: 'madhu-milan', name: 'Madhu Milan', image: '20.png', price: '₹1675 / kg', maxPercentage: 100 },
+  { id: 'pista-kali', name: 'Pista Kali', image: '21.png', price: '₹1675 / kg', maxPercentage: 100 },
+  { id: 'anarkali', name: 'Anarkali', image: '22.png', price: '₹1675 / kg', maxPercentage: 100 },
   { id: 'pista-sandesh', name: 'Pista Sandesh', image: '23.png', price: '₹757 / kg', maxPercentage: 100 },
-  { id: 'kachha-gola-sandesh', name: 'Kachha Gola Sandesh', image: '24.png', price: '₹50 / Pc', maxPercentage: 100 },
-  { id: 'kesar-coconut-ladoo', name: 'Kesar Coconut Ladoo', image: '25.png', price: '₹819 / kg', maxPercentage: 100 },
-  { id: 'kesar-burfi', name: 'Kesar Burfi', image: '26.png', price: '₹794 / kg', maxPercentage: 100 },
-  { id: 'choclate-burfi', name: 'Choclate Burfi', image: '27.png', price: '₹808 / kg', maxPercentage: 100 },
-  { id: 'milk-burfi', name: 'Milk Burfi', image: '28.png', price: '₹805 / kg', maxPercentage: 100 },
-  { id: 'mathura-peda', name: 'Mathura Peda', image: '29.png', price: '₹772 / kg', maxPercentage: 100 },
-  { id: 'danedar-burfi', name: 'Danedar Burfi', image: '30.png', price: '₹856 / kg', maxPercentage: 100 },
-  { id: 'hari-bhog', name: 'Hari Bhog', image: '31.png', price: '₹1,250 / kg', maxPercentage: 100 },
-  { id: 'pakeeja', name: 'Pakeeja', image: '32.png', price: '₹1,251 / kg', maxPercentage: 100 },
-  { id: 'malai-chop', name: 'Malai Chop', image: '33.png', price: '₹1,252 / kg', maxPercentage: 100 },
-  { id: 'maida-gujiya', name: 'Maida Gujiya', image: '34.png', price: '₹838 / kg', maxPercentage: 100 },
-  { id: 'kesar-gujiya', name: 'Kesar Gujiya', image: '35.png', price: '₹927 / kg', maxPercentage: 100 },
-  { id: 'sev-badam-burfi', name: 'Sev Badam Burfi', image: '36.png', price: '₹814 / kg', maxPercentage: 100 },
-  { id: 'small-mewa-ladoo', name: 'Small Mewa Ladoo', image: '37.png', price: '₹927 / kg', maxPercentage: 100 },
-  { id: 'shahi-ladoo', name: 'Shahi Ladoo', image: '38.png', price: '₹1,654 / kg', maxPercentage: 100 },
-  { id: 'spl-pinni', name: 'Spl Pinni', image: '39.png', price: '₹780 / kg', maxPercentage: 100 },
-  { id: 'badan-burfi', name: 'Badan Burfi', image: '40.png', price: '₹1,676 / kg', maxPercentage: 100 },
-  { id: 'kaju-honey-dew', name: 'Kaju Honey Dew', image: '41.png', price: '₹1,853 / kg', maxPercentage: 100 },
-  { id: 'kaju-rose-katli', name: 'Kaju Rose Katli', image: '42.png', price: '₹1,257 / kg', maxPercentage: 100 },
-  { id: 'kaju-samosa', name: 'Kaju Samosa', image: '43.png', price: '₹1,853 / kg', maxPercentage: 100 },
-  { id: 'strawberry-katli', name: 'Strawberry Katli', image: '44.png', price: '₹1,853 / kg', maxPercentage: 100 },
-  { id: 'kaju-kalash', name: 'Kaju Kalash', image: '45.png', price: '₹1,875 / kg', maxPercentage: 100 },
-  { id: 'kaju-anjeer-cake', name: 'Kaju Anjeer Cake', image: '46.png', price: '₹1,764 / kg', maxPercentage: 100 },
-  { id: 'kaju-roll', name: 'Kaju Roll', image: '47.png', price: '₹1,764 / kg', maxPercentage: 100 },
+  { id: 'kachha-gola-sandesh', name: 'Kachha Gola Sandesh', image: '24.png', price: '₹1250 / kg', maxPercentage: 100 }, // 50/pc
+  { id: 'chocolate-sandesh', name: 'Chocolate Sandesh', image: '25.png', price: '₹756 / kg', maxPercentage: 100 },
+  { id: 'pineapple-sandesh', name: 'Pineapple Sandesh', image: '26.png', price: '₹820 / kg', maxPercentage: 100 },
+  { id: 'kesar-coconut-ladoo', name: 'Kesar Coconut Ladoo', image: '27.png', price: '₹819 / kg', maxPercentage: 100 },
+  { id: 'kesar-burfi', name: 'Kesar Burfi', image: '28.png', price: '₹794 / kg', maxPercentage: 100 },
+  { id: 'chocolate-burfi', name: 'Chocolate Burfi', image: '29.png', price: '₹808 / kg', maxPercentage: 100 },
+  { id: 'milk-burfi', name: 'Milk Burfi', image: '30.png', price: '₹805 / kg', maxPercentage: 100 },
+  { id: 'mathura-peda', name: 'Mathura Peda', image: '31.png', price: '₹772 / kg', maxPercentage: 100 },
+  { id: 'danedar-burfi', name: 'Danedar Burfi', image: '32.png', price: '₹856 / kg', maxPercentage: 100 },
+  { id: 'hari-bhog', name: 'Hari Bhog', image: '33.png', price: '₹1250 / kg', maxPercentage: 100 },
+  { id: 'pakeeja', name: 'Pakeeja', image: '34.png', price: '₹1250 / kg', maxPercentage: 100 },
+  { id: 'malai-chop', name: 'Malai Chop', image: '35.png', price: '₹1250 / kg', maxPercentage: 100 },
+  { id: 'maida-gujiya', name: 'Maida Gujiya', image: '36.png', price: '₹838 / kg', maxPercentage: 100 },
+  { id: 'kesar-gujiya', name: 'Kesar Gujiya', image: '37.png', price: '₹927 / kg', maxPercentage: 100 },
+  { id: 'sev-badam-burfi', name: 'Sev Badam Burfi', image: '38.png', price: '₹814 / kg', maxPercentage: 100 },
+  { id: 'small-mewa-ladoo', name: 'Small Mewa Ladoo', image: '39.png', price: '₹927 / kg', maxPercentage: 100 },
+  { id: 'shahi-ladoo', name: 'Shahi Ladoo', image: '40.png', price: '₹1654 / kg', maxPercentage: 100 },
+  { id: 'spl-pinni', name: 'Spl Pinni', image: '41.png', price: '₹780 / kg', maxPercentage: 100 },
+  { id: 'badam-burfi', name: 'Badam Burfi', image: '42.png', price: '₹1676 / kg', maxPercentage: 100 },
+  { id: 'badam-ladoo', name: 'Badam Ladoo', image: '43.png', price: '₹1870 / kg', maxPercentage: 100 },
+  { id: 'kaju-honey-dew', name: 'Kaju Honey Dew', image: '44.png', price: '₹1853 / kg', maxPercentage: 100 },
+  { id: 'kaju-rose-katli', name: 'Kaju Rose Katli', image: '45.png', price: '₹1257 / kg', maxPercentage: 100 },
+  { id: 'kaju-samosa', name: 'Kaju Samosa', image: '46.png', price: '₹1853 / kg', maxPercentage: 100 },
+  { id: 'strawberry-katli', name: 'Strawberry Katli', image: '47.png', price: '₹1853 / kg', maxPercentage: 100 },
+  { id: 'kaju-kalash', name: 'Kaju Kalash', image: '48.png', price: '₹1875 / kg', maxPercentage: 100 },
+  { id: 'kaju-anjeer-cake', name: 'Kaju Anjeer Cake', image: '49.png', price: '₹1764 / kg', maxPercentage: 100 },
+  { id: 'kaju-roll', name: 'Kaju Roll', image: '50.png', price: '₹1764 / kg', maxPercentage: 100 },
+  { id: 'kaju-fancy-item', name: 'Kaju Fancy Item', image: '51.png', price: '₹2181 / kg', maxPercentage: 100 },
+  { id: 'baklava-kaju-tart', name: 'Baklava Mithai Kaju Tart', image: '52.png', price: '₹1737 / kg', maxPercentage: 100 },
+  { id: 'baklava-mango-tart', name: 'Baklava Mithai Mango Tart', image: '53.png', price: '₹2189 / kg', maxPercentage: 100 },
+  { id: 'baklava-badam-tart', name: 'Baklava Mithai Badam Tart', image: '54.png', price: '₹2189 / kg', maxPercentage: 100 },
+  { id: 'baklava-pista-tart', name: 'Baklava Mithai Pista Tart', image: '55.png', price: '₹3647 / kg', maxPercentage: 100 },
+  { id: 'baklava-kiwi-tart', name: 'Baklava Mithai Kiwi Tart', image: '56.png', price: '₹1957 / kg', maxPercentage: 100 },
+  { id: 'baklava-mix-tart', name: 'Baklava Mithai Mix Tart', image: '57.png', price: '₹2200 / kg', maxPercentage: 100 },
+  { id: 'baklava-anjeer-tart', name: 'Baklava Mithai Anjeer Tart', image: '58.png', price: '₹1957 / kg', maxPercentage: 100 },
+  { id: 'baklava-turquoise-tart', name: 'Baklava Mithai Turquoise Tart', image: '59.png', price: '₹2431 / kg', maxPercentage: 100 },
+  { id: 'baklava-royal-pista-pyramid', name: 'Baklava Mithai Royal Pista Pyramid', image: '60.png', price: '₹2675 / kg', maxPercentage: 100 },
+  { id: 'baklava-oso-bulbul-kaju', name: 'Baklava Mithai OSO Bulbul Kaju', image: '61.png', price: '₹2211 / kg', maxPercentage: 100 },
+  { id: 'baklava-oso-bulbul-badam', name: 'Baklava Mithai OSO Bulbul Badam', image: '62.png', price: '₹2085 / kg', maxPercentage: 100 },
+  { id: 'baklava-oso-bulbul-pista', name: 'Baklava Mithai OSO Bulbul Pista', image: '63.png', price: '₹3474 / kg', maxPercentage: 100 },
+  { id: 'baklava-pista-diamond', name: 'Baklava Mithai Pista Diamond', image: '64.png', price: '₹3126 / kg', maxPercentage: 100 },
+  { id: 'baklava-ring', name: 'Baklava Mithai Ring', image: '65.png', price: '₹1945 / kg', maxPercentage: 100 },
+  { id: 'baklava-finger-roll', name: 'Baklava Mithai Finger Roll', image: '66.png', price: '₹1602 / kg', maxPercentage: 100 },
+  { id: 'baklava-kaju-roll', name: 'Baklava Mithai Kaju Roll', image: '67.png', price: '₹2200 / kg', maxPercentage: 100 },
+  { id: 'bite-orange', name: 'Bite Orange', image: '68.png', price: '₹1721 / kg', maxPercentage: 100 },
+  { id: 'bite-mango', name: 'Bite Mango', image: '69.png', price: '₹1721 / kg', maxPercentage: 100 },
+  { id: 'kaju-khajoor', name: 'Kaju Khajoor', image: '70.png', price: '₹1764 / kg', maxPercentage: 100 },
+  { id: 'badam-khajoor', name: 'Badam Khajoor', image: '71.png', price: '₹1764 / kg', maxPercentage: 100 },
+  { id: 'bite-choco', name: 'Bite Choco', image: '72.png', price: '₹1721 / kg', maxPercentage: 100 },
+  { id: 'bite-mewa', name: 'Bite Mewa', image: '73.png', price: '₹1721 / kg', maxPercentage: 100 },
+  { id: 'kiwi-delight', name: 'Kiwi Delight', image: '74.png', price: '₹1721 / kg', maxPercentage: 100 },
+  { id: 'guava-delight', name: 'Guava Delight', image: '75.png', price: '₹1721 / kg', maxPercentage: 100 },
+  { id: 'cranberry-delight', name: 'Cranberry Delight', image: '76.png', price: '₹1778 / kg', maxPercentage: 100 },
+  { id: 'patisa', name: 'Patisa', image: '77.png', price: '₹624 / kg', maxPercentage: 100 },
+  { id: 'cranberry-burfi', name: 'Cranberry Burfi', image: '78.png', price: '₹1522 / kg', maxPercentage: 100 },
+  { id: 'cranberry-fusion', name: 'Cranberry Fusion', image: '79.png', price: '₹1522 / kg', maxPercentage: 100 },
+  { id: 'cranberry-launj', name: 'Cranberry Launj', image: '80.png', price: '₹1522 / kg', maxPercentage: 100 },
+  { id: 'cranberry-pista-roll', name: 'Cranberry Pista Roll', image: '81.png', price: '₹1522 / kg', maxPercentage: 100 },
+  { id: 'kaju-pista-ladoo', name: 'Kaju Pista Ladoo', image: '82.png', price: '₹2007 / kg', maxPercentage: 100 },
+  { id: 'kaju-huntan', name: 'Kaju Huntan', image: '83.png', price: '₹1742 / kg', maxPercentage: 100 },
+  { id: 'kaju-apple', name: 'Kaju Apple', image: '84.png', price: '₹1774 / kg', maxPercentage: 100 },
+  { id: 'kaju-ladoo', name: 'Kaju Ladoo', image: '85.png', price: '₹1764 / kg', maxPercentage: 100 },
+  { id: 'kaju-gujia', name: 'Kaju Gujia', image: '86.png', price: '₹1764 / kg', maxPercentage: 100 },
+  { id: 'kaju-kesar', name: 'Kaju Kesar', image: '87.png', price: '₹1764 / kg', maxPercentage: 100 },
+  { id: 'kaju-gulkand-ladoo', name: 'Kaju Gulkand Ladoo', image: '88.png', price: '₹1853 / kg', maxPercentage: 100 },
+  { id: 'chocolate-aam-papad-burfi', name: 'Chocolate Aam Papad Burfi', image: '89.png', price: '₹1059 / kg', maxPercentage: 100 },
+  { id: 'pista-launj', name: 'Pista Launj', image: '90.png', price: '₹4410 / kg', maxPercentage: 100 },
+  { id: 'balu-shahi', name: 'Balu Shahi', image: '91.png', price: '₹690 / kg', maxPercentage: 100 },
+  { id: 'milk-cake', name: 'Milk Cake', image: '92.png', price: '₹798 / kg', maxPercentage: 100 },
+  { id: 'kheer-kadam', name: 'Kheer Kadam', image: '93.png', price: '₹860 / kg', maxPercentage: 100 },
+  { id: 'kheer-mohan', name: 'Kheer Mohan', image: '94.png', price: '₹574 / kg', maxPercentage: 100 },
+  { id: 'khoya-badam-burfi', name: 'Khoya Badam Burfi', image: '95.png', price: '₹838 / kg', maxPercentage: 100 },
+  { id: 'khoya-fruit-cake', name: 'Khoya Fruit Cake', image: '96.png', price: '₹860 / kg', maxPercentage: 100 },
+  { id: 'kesar-cham-cham', name: 'Kesar Cham Cham', image: '97.png', price: '₹1275 / kg', maxPercentage: 100 }, // 51/pc
+  { id: 'kas-katta', name: 'Kas Katta', image: '98.png', price: '₹1250 / kg', maxPercentage: 100 }
 ];
 
 
@@ -257,28 +308,38 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
       printData: {} // Will be filled after generating ESC/POS data
     };
 
-    // Create ESC/POS commands for receipt
-    const escpos = 
-      "\x1B\x40" +                     // Initialize printer
-      "\x1B\x61\x31" +                 // Center align
-      "🍽️  Haldiram's  🍽️\n" +
-      `Order: ${orderId}\n` +
-      `${date}\n` +
-      "-----------------------------\n" +
-      "\x1B\x61\x30" +                 // Left align
-      `${selectedVariant.name} (${selectedVariant.size})\n` +
-      "-----------------------------\n" +
-      "Sr  Sweet           %    Price\n" +
-      "-----------------------------\n" +
-      selectedIngredients.map((item, index) => {
-        const price = extractPrice(item.price) * (item.currentPercentage / 100) * selectedVariant.maxPercentageMultiplier;
-        return `${(index + 1).toString().padEnd(4)}${item.name.slice(0, 15).padEnd(15)}${item.currentPercentage.toString().padEnd(5)}₹${Math.ceil(price)}\n`;
-      }).join('') +
-      "-----------------------------\n" +
-      "\x1B\x61\x32" +                 // Right align
-      `Total : ₹${Math.ceil(totalPrice)}\n` +
-      "\x1B\x61\x31" +                 // Center again
-      "Thank you! Visit again 🙏\n\n\n";
+const escpos =
+  "\x1B\x40" +                     // Initialize printer
+  "\x1B\x61\x31" +                 // Center align
+  "🍽️  Haldiram's  🍽️\n" +
+  `Order: ${orderId}\n` +
+  `${date}\n` +
+  "------------------------------------------------\n" +
+  "\x1B\x61\x30" +                 // Left align
+  `${selectedVariant.name} (${selectedVariant.size})\n` +
+  "------------------------------------------------\n" +
+  "Sr  Sweet Name                 %     Price\n" +
+  "------------------------------------------------\n" +
+  selectedIngredients.map((item, index) => {
+    const price = Math.ceil(
+      extractPrice(item.price) *
+      (item.currentPercentage / 100) *
+      selectedVariant.maxPercentageMultiplier
+    );
+
+    const srCol = (index + 1).toString().padEnd(3);                         // Sr
+    const sweetCol = item.name.slice(0, 25).padEnd(25);                     // Sweet name (25)
+    const percentCol = item.currentPercentage.toString().padStart(3).padEnd(6); // e.g. " 40   "
+    const priceCol = (`₹${price}`).padStart(8);                             // Right aligned price
+
+    return `${srCol}${sweetCol}${percentCol}${priceCol}\n`;
+  }).join('') +
+  "------------------------------------------------\n" +
+  "\x1B\x61\x32" +                 // Right align
+  `Total : ₹${Math.ceil(totalPrice)}\n` +
+  "\x1B\x61\x31" +                 // Center again
+  "Thank you! Visit again 🙏\n\n\n";
+
 
     // Add print data to order details
     orderDetails.printData = {
