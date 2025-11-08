@@ -4,7 +4,108 @@ import { storage } from "./storage";
 import { insertOrderSchema } from "@shared/schema";
 import { z } from "zod";
 
+// Backend API base URL
+const BACKEND_API_URL = 'http://localhost:8000';
+
+// Machine API client functions
+async function fetchFromMachine(endpoint: string) {
+  const response = await fetch(`${BACKEND_API_URL}${endpoint}`);
+  if (!response.ok) {
+    throw new Error(`Machine API error: ${response.status} ${response.statusText}`);
+  }
+  return response.json();
+}
+
+async function postToMachine(endpoint: string, data?: any) {
+  const response = await fetch(`${BACKEND_API_URL}${endpoint}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: data ? JSON.stringify(data) : undefined
+  });
+  if (!response.ok) {
+    throw new Error(`Machine API error: ${response.status} ${response.statusText}`);
+  }
+  return response.json();
+}
+
+async function putToMachine(endpoint: string, data: any) {
+  const response = await fetch(`${BACKEND_API_URL}${endpoint}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  });
+  if (!response.ok) {
+    throw new Error(`Machine API error: ${response.status} ${response.statusText}`);
+  }
+  return response.json();
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Machine API Routes - Proxy to backend
+  
+  // Get machine inventory
+  app.get("/api/machines/:machineId/inventory", async (req, res) => {
+    try {
+      const { machineId } = req.params;
+      const inventoryData = await fetchFromMachine(`/api/v1/machines/${machineId}/inventory`);
+      res.json(inventoryData);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to connect to machine API" });
+    }
+  });
+
+  // Get machine presets
+  app.get("/api/machines/:machineId/presets", async (req, res) => {
+    try {
+      const { machineId } = req.params;
+      const { category } = req.query;
+      
+      let endpoint = `/api/v1/machines/${machineId}/presets`;
+      if (category) {
+        endpoint += `?category=${category}`;
+      }
+      
+      const presetsData = await fetchFromMachine(endpoint);
+      res.json(presetsData);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to connect to machine API" });
+    }
+  });
+
+  // Get preset details
+  app.get("/api/presets/:presetId", async (req, res) => {
+    console.log("🔥 Preset details route hit with ID:", req.params.presetId);
+    try {
+      const { presetId } = req.params;
+      
+      const endpoint = `/api/v1/presets/${presetId}`;
+      console.log("🔥 Calling backend endpoint:", endpoint);
+      const presetDetails = await fetchFromMachine(endpoint);
+      console.log("🔥 Backend response:", presetDetails);
+      res.json(presetDetails);
+    } catch (error) {
+      console.error("🔥 Error in preset details:", error);
+      res.status(500).json({ error: "Failed to connect to machine API" });
+    }
+  });
+
+  // Update machine inventory (PUT)
+  app.put("/api/machines/:machineId/inventory", async (req, res) => {
+    try {
+      const { machineId } = req.params;
+      const updatedInventory = await putToMachine(`/api/v1/machines/${machineId}/inventory`, req.body);
+      res.json(updatedInventory);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to connect to machine API" });
+    }
+  });
+
+  // Original Demo API Routes (legacy)
+  
   // Get all menu items
   app.get("/api/menu", async (req, res) => {
     try {
@@ -50,36 +151,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Create order
+  // Create order (proxy to machine API)
   app.post("/api/orders", async (req, res) => {
     try {
-      const validatedData = insertOrderSchema.parse(req.body);
-      const order = await storage.createOrder(validatedData);
-      
-      // Simulate processing delay
-      setTimeout(async () => {
-        await storage.updateOrderStatus(order.id, "completed");
-      }, 4000);
-
-      res.status(201).json(order);
+      const endpoint = `/api/v1/orders`;
+      const orderData = await postToMachine(endpoint, req.body);
+      res.status(201).json(orderData);
     } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: "Invalid order data", details: error.errors });
-      }
+      console.error("Error creating order:", error);
       res.status(500).json({ error: "Failed to create order" });
     }
   });
 
-  // Get order status
-  app.get("/api/orders/:id", async (req, res) => {
+  // Update order status (proxy to machine API)
+  app.put("/api/orders/:orderId/status", async (req, res) => {
     try {
-      const { id } = req.params;
-      const order = await storage.getOrder(id);
-      if (!order) {
-        return res.status(404).json({ error: "Order not found" });
-      }
-      res.json(order);
+      const { orderId } = req.params;
+      const endpoint = `/api/v1/orders/${orderId}/status`;
+      const result = await putToMachine(endpoint, req.body);
+      res.json(result);
     } catch (error) {
+      console.error("Error updating order status:", error);
+      res.status(500).json({ error: "Failed to update order status" });
+    }
+  });
+
+  // Get order details (proxy to machine API)
+  app.get("/api/orders/:orderId", async (req, res) => {
+    try {
+      const { orderId } = req.params;
+      const endpoint = `/api/v1/orders/${orderId}`;
+      const orderData = await fetchFromMachine(endpoint);
+      res.json(orderData);
+    } catch (error) {
+      console.error("Error fetching order:", error);
       res.status(500).json({ error: "Failed to fetch order" });
     }
   });
