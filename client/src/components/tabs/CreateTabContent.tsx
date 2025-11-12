@@ -51,6 +51,24 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
   const [alert, setAlert] = useState<string | null>(null);
   const [totalPercentage, setTotalPercentage] = useState<number>(0);
   const [maxIndicatorVisible, setMaxIndicatorVisible] = useState<boolean>(false);
+  
+  // State for liquid selection (smoothies only)
+  const [selectedLiquids, setSelectedLiquids] = useState<{
+    milk: boolean;
+    hotWater: boolean;
+  }>({
+    milk: false,
+    hotWater: false
+  });
+
+  // State for dressing selection (salads only)
+  const [selectedDressings, setSelectedDressings] = useState<{
+    dressing1: boolean;
+    dressing2: boolean;
+  }>({
+    dressing1: false,
+    dressing2: false
+  });
 
   // Convert API ingredients to local format - filter by category if needed
   const availableIngredients = apiIngredients
@@ -168,6 +186,20 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
       setTimeout(() => setAlert(null), 3000);
       return;
     }
+
+    // For smoothies, check if at least one liquid is selected
+    if (isSmoothie && !selectedLiquids.milk && !selectedLiquids.hotWater) {
+      setAlert('Please select at least one base (Milk or Hot Water)');
+      setTimeout(() => setAlert(null), 3000);
+      return;
+    }
+
+    // For salads, check if at least one dressing is selected
+    if (!isSmoothie && !selectedDressings.dressing1 && !selectedDressings.dressing2) {
+      setAlert('Please select at least one dressing');
+      setTimeout(() => setAlert(null), 3000);
+      return;
+    }
     
     // Calculate dynamic price and calories based on ingredients used
     const totalPrice = selectedIngredients.reduce((sum, ingredient) => {
@@ -206,6 +238,29 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
     }, 0);
     
     console.log(`Total price calculated: ${totalPrice}, Total calories: ${totalCalories}`);
+
+    // Build liquids array for API
+    // For smoothies: includes milk and hot water
+    // For salads: includes salad dressings (passed as liquids)
+    const liquidsArray = [];
+    
+    if (isSmoothie) {
+      // Smoothie liquids
+      if (selectedLiquids.milk) {
+        liquidsArray.push({ liquid_name: 'milk', qty: '50ml' });
+      }
+      if (selectedLiquids.hotWater) {
+        liquidsArray.push({ liquid_name: 'hot water', qty: '50ml' });
+      }
+    } else {
+      // Salad dressings (passed as liquids in API)
+      if (selectedDressings.dressing1) {
+        liquidsArray.push({ liquid_name: 'salad dressing 1', qty: '50ml' });
+      }
+      if (selectedDressings.dressing2) {
+        liquidsArray.push({ liquid_name: 'salad dressing 2', qty: '50ml' });
+      }
+    }
     
     // Create a custom recipe item and navigate to customization
     const customRecipe = {
@@ -222,9 +277,11 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
         emoji: ingredient.emoji,
         percentage: ingredient.currentPercentage
       })),
+      customLiquids: liquidsArray, // Include liquids for smoothies and dressings for salads
       isCustomRecipe: true // Flag to identify custom recipes
     };
     
+    console.log('Custom Recipe:', customRecipe);
     setSelectedItem(customRecipe as any);
     setLocation('/customization');
   };
@@ -255,6 +312,68 @@ export function CreateTabContent({ category }: CreateTabContentProps) {
         ) : (
           /* Main Content - Exact same layout as original */
           <>
+            {/* Choose Your Base Section (For Smoothies Only) */}
+            {isSmoothie && (
+              <div className="mb-8 bg-white bg-opacity-10 rounded-2xl p-6">
+                <h4 className="text-white text-xl font-bold mb-4">Choose Your Base</h4>
+                <div className="flex gap-4 flex-wrap">
+                  <Button
+                    onClick={() => setSelectedLiquids({ ...selectedLiquids, milk: !selectedLiquids.milk })}
+                    className={`flex-1 min-w-[150px] py-6 px-6 rounded-xl font-semibold text-lg transition-all ${
+                      selectedLiquids.milk
+                        ? 'urban-yellow text-black border-2 border-yellow-300'
+                        : 'bg-white bg-opacity-20 text-white hover:bg-opacity-30 border-2 border-transparent'
+                    }`}
+                    variant="ghost"
+                  >
+                    🥛 Milk 
+                  </Button>
+                  <Button
+                    onClick={() => setSelectedLiquids({ ...selectedLiquids, hotWater: !selectedLiquids.hotWater })}
+                    className={`flex-1 min-w-[150px] py-6 px-6 rounded-xl font-semibold text-lg transition-all ${
+                      selectedLiquids.hotWater
+                        ? 'urban-yellow text-black border-2 border-yellow-300'
+                        : 'bg-white bg-opacity-20 text-white hover:bg-opacity-30 border-2 border-transparent'
+                    }`}
+                    variant="ghost"
+                  >
+                    💧 Hot Water 
+                  </Button>
+                </div>
+              </div>
+            )}
+            
+            {/* Choose Your Dressing Section (For Salads Only) */}
+            {!isSmoothie && (
+              <div className="mb-8 bg-white bg-opacity-10 rounded-2xl p-6">
+                <h4 className="text-white text-xl font-bold mb-4">Choose Your Dressing</h4>
+                <div className="flex gap-4 flex-wrap">
+                  <Button
+                    onClick={() => setSelectedDressings({ ...selectedDressings, dressing1: !selectedDressings.dressing1 })}
+                    className={`flex-1 min-w-[150px] py-6 px-6 rounded-xl font-semibold text-lg transition-all ${
+                      selectedDressings.dressing1
+                        ? 'urban-yellow text-black border-2 border-yellow-300'
+                        : 'bg-white bg-opacity-20 text-white hover:bg-opacity-30 border-2 border-transparent'
+                    }`}
+                    variant="ghost"
+                  >
+                    🥗 Salad Dressing 1 
+                  </Button>
+                  <Button
+                    onClick={() => setSelectedDressings({ ...selectedDressings, dressing2: !selectedDressings.dressing2 })}
+                    className={`flex-1 min-w-[150px] py-6 px-6 rounded-xl font-semibold text-lg transition-all ${
+                      selectedDressings.dressing2
+                        ? 'urban-yellow text-black border-2 border-yellow-300'
+                        : 'bg-white bg-opacity-20 text-white hover:bg-opacity-30 border-2 border-transparent'
+                    }`}
+                    variant="ghost"
+                  >
+                    🥗 Salad Dressing 2 
+                  </Button>
+                </div>
+              </div>
+            )}
+            
             {/* Main Content Area */}
             <div className="grid md:grid-cols-2 gap-6 w-full min-h-[630px] overflow-hidden">
               {/* Left side - Ingredient List */}

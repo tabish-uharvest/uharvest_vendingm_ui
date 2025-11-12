@@ -308,6 +308,14 @@ export const useVendingStore = create<VendingMachineState>((set, get) => ({
 
     console.log('Final addons for order:', addons);
 
+    // Build liquids array from custom recipe
+    const liquids = [];
+    if ((state.selectedItem as any).customLiquids && Array.isArray((state.selectedItem as any).customLiquids)) {
+      liquids.push(...(state.selectedItem as any).customLiquids);
+    }
+
+    console.log('Final liquids for order:', liquids);
+
     const orderData = {
       machine_id: state.machineId,
       total_price: state.calculateTotal().toFixed(2),
@@ -315,7 +323,8 @@ export const useVendingStore = create<VendingMachineState>((set, get) => ({
       status: "pending",
       session_id: sessionId,
       ingredients,
-      addons
+      addons,
+      liquids
     };
 
     console.log('=== Final Order Data ===');
