@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Play, Leaf } from 'lucide-react';
 import { useVendingStore } from '@/lib/store';
 import FloatingAnimation from '@/components/floating-animation';
+import uharvestLogo from '@/assets/uharvest.png';
 
 export default function WelcomePage() {
   const [, setLocation] = useLocation();
@@ -20,7 +21,7 @@ export default function WelcomePage() {
       {/* Logo */}
       <div className="flex flex-col items-center mb-16 z-10">
         <img
-          src={"/src/assets/uharvest.png"}
+          src={uharvestLogo}
           alt="Urban Harvest Logo"
           className="w-[40rem] h-auto mb-10 drop-shadow-2xl select-none pointer-events-none ml-20"
           draggable={false}
